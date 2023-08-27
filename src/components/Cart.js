@@ -11,14 +11,23 @@ export default function Cart() {
             return (
               <tr key={item.id}>
                 <td>
-                  <a href="#">x</a>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => {
+                      dispatch({
+                        type: 'REMOVE_CART_ITEM',
+                        payload: {
+                          ...item,
+                        },
+                      });
+                    }}
+                  >
+                    x
+                  </button>
                 </td>
                 <td>
-                  <img
-                    src={item.img}
-                    className="table-image"
-                    alt=""
-                  />
+                  <img src={item.img} className="table-image" alt="" />
                 </td>
                 <td>
                   {item.title}
@@ -26,21 +35,29 @@ export default function Cart() {
                   <small className="text-muted">NT$ {item.price}</small>
                 </td>
                 <td>
-                  <select name="" id="" className="form-select" value={item.quantity} onChange={(e) => {
-                    e.preventDefault();
-                    const quantity = parseInt(e.target.value);
-                    dispatch({
-                      type: 'CHANGE_CART_QUANTITY',
-                      payload: {
-                        ...item,
-                        quantity
-                      }
-                    })
-                  }}>
-                    {[...Array(20)].map((_,i) => {
+                  <select
+                    name=""
+                    id=""
+                    className="form-select"
+                    value={item.quantity}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      const quantity = parseInt(e.target.value);
+                      dispatch({
+                        type: 'CHANGE_CART_QUANTITY',
+                        payload: {
+                          ...item,
+                          quantity,
+                        },
+                      });
+                    }}
+                  >
+                    {[...Array(20)].map((_, i) => {
                       return (
-                        <option value={i+1} key={i}>{ i + 1 }</option>         
-                      )
+                        <option value={i + 1} key={i}>
+                          {i + 1}
+                        </option>
+                      );
                     })}
                   </select>
                 </td>
@@ -52,7 +69,7 @@ export default function Cart() {
         <tfoot>
           <tr>
             <td colSpan={5} className="text-end">
-              總金額 NT$ 440
+              總金額 NT$ {state.total || 0}
             </td>
           </tr>
         </tfoot>
