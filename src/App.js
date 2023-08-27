@@ -12,6 +12,7 @@ function App() {
       const index = cartList.findIndex((item) => item.id === action.payload.id);
       console.log(index);
       console.log(state, action);
+      console.log(cartList);
       switch (action.type) {
         case 'ADD_TO_CART':
           if (index === -1) {
@@ -25,7 +26,12 @@ function App() {
             ...state,
             cartList,
           };
-
+        case 'CHANGE_CART_QUANTITY':
+          cartList[index].quantity = action.payload.quantity;
+          return {
+            ...state,
+            cartList
+          }
         default:
           return state;
       }
